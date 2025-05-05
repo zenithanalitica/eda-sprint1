@@ -1,3 +1,5 @@
+from typing import LiteralString
+import neo4j
 import credentials
 from neo4j import GraphDatabase
 
@@ -8,10 +10,12 @@ def main():
     ) as driver:
         driver.verify_connectivity()
         print(f"Auth: {driver.verify_authentication()}")
+        run_query(driver, "MATCH (t:Tweet) RETURN t.id AS id LIMIT 10000")
 
-    # Get the name of all 42 year-olds
+
+def run_query(driver: neo4j.Driver, query: LiteralString):
     records, summary, _ = driver.execute_query(
-        "MATCH (t:Tweet) RETURN t.id AS id LIMIT 10000",
+        query,
         database_="neo4j",
     )
 
