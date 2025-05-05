@@ -1,5 +1,13 @@
+import credentials
+from neo4j import GraphDatabase
+
+
 def main():
-    print("Hello from eda!")
+    with GraphDatabase.driver(
+        credentials.uri, auth=(credentials.user, credentials.password)
+    ) as driver:
+        driver.verify_connectivity()
+        print(f"Auth: {driver.verify_authentication()}")
 
 
 if __name__ == "__main__":
